@@ -48,7 +48,7 @@ def buy_pwr():
     })
 
     signed = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
-    tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
+    tx_hash = w3.eth.send_raw_transaction(signed.raw_Transaction)
     print(f"Compra enviada. Tx: {tx_hash.hex()}")
     step = "sell"
 
@@ -84,7 +84,7 @@ def sell_pwr():
     })
 
     signed = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
-    tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
+    tx_hash = w3.eth.send_raw_transaction(signed.raw_Transaction)
     print(f"Venta enviada. Tx: {tx_hash.hex()}")
     step = "buy"
 
