@@ -16,8 +16,8 @@ PWR_TOKEN = Web3.to_checksum_address("0x3Eb3B7b3D95Cb3699295D7868F85e43b56AeeFcB
 WPLS_TOKEN = Web3.to_checksum_address("0xA1077a294dDE1B09bB078844df40758a5D0f9a27")
 
 AMOUNT_IN_WPLS = Web3.to_wei(100, 'ether')  # 100 WPLS
-SLIPPAGE = 0.05  # 5%
-GAS_LIMIT = 600000
+SLIPPAGE = 0.04
+GAS_LIMIT = 300000
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
 
@@ -35,7 +35,7 @@ def buy_pwr():
     path = [WPLS_TOKEN, PWR_TOKEN]
 
     txn = router.functions.swapExactETHForTokensSupportingFeeOnTransferTokens(
-        0,  # amountOutMin = 0 (puedes ajustar si quieres mínimo)
+        0,
         path,
         ACCOUNT_ADDRESS,
         deadline
@@ -48,7 +48,7 @@ def buy_pwr():
     })
 
     signed = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
-    tx_hash = w3.eth.send_raw_transaction(signed.raw_Transaction)
+    tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
     print(f"Compra enviada. Tx: {tx_hash.hex()}")
     step = "sell"
 
@@ -59,7 +59,6 @@ def sell_pwr():
     deadline = int(time.time()) + 600
     path = [PWR_TOKEN, WPLS_TOKEN]
 
-    # Verificamos balance y aprobamos PWR
     balance = w3.eth.contract(address=PWR_TOKEN, abi=[
         {"constant": True, "inputs": [{"name": "_owner", "type": "address"}],
          "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}],
@@ -84,7 +83,7 @@ def sell_pwr():
     })
 
     signed = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
-    tx_hash = w3.eth.send_raw_transaction(signed.raw_Transaction)
+    tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
     print(f"Venta enviada. Tx: {tx_hash.hex()}")
     step = "buy"
 
@@ -104,5 +103,5 @@ if __name__ == "__main__":
     scheduler = BlockingScheduler()
     scheduler.add_job(run_bot, 'interval', hours=8)
     print("Bot iniciado. Ejecutando cada 8 horas...")
-    run_bot()  # Primer run inmediato
+    run_bot()
     scheduler.start()
