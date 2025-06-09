@@ -16,8 +16,8 @@ PWR_TOKEN = Web3.to_checksum_address("0x3Eb3B7b3D95Cb3699295D7868F85e43b56AeeFcB
 WPLS_TOKEN = Web3.to_checksum_address("0xA1077a294dDE1B09bB078844df40758a5D0f9a27")
 
 AMOUNT_IN_WPLS = Web3.to_wei(100, 'ether')  # 100 WPLS
-SLIPPAGE = 0.04  # 4%
-GAS_LIMIT = 300000
+SLIPPAGE = 0.05  # 5%
+GAS_LIMIT = 600000
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
 
